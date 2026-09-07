@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passenger Registration</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+    padding: 20px;
+}
+
+/* CARD */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* HEADER */
+header {
+    background: #06844d;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* FORM */
+form {
+    padding: 25px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    gap: 15px;
+}
+
+label {
+    flex: 1 0 180px;
+    font-weight: bold;
+    color: #333;
+    padding-top: 10px;
+}
+
+.input-box {
+    flex: 2;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+    font-size: 15px;
+}
+
+input:focus, select:focus {
+    border-color: #06844d;
+    box-shadow: 0 0 5px rgba(6,132,77,0.3);
+}
+
+/* CHECKBOX GRID */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 14px;
+    background: #06844d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* ERROR */
+.error {
+    border: 2px solid red !important;
+}
+
+small {
+    color: #777;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+    .row {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>PASSENGER REGISTRATION FORM</header>
+
+<form method="POST" enctype="multipart/form-data" id="form">
+
+<!-- FLASH MESSAGE -->
+<div style="text-align:center; color:red; margin-top:10px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<!-- NAME -->
+<div class="row">
+    <label>Passenger Name</label>
+    <div class="input-box">
+        <input type="text" name="passenger_name" id="passenger_name" required>
+    </div>
+</div>
+
+<!-- DATE -->
+<div class="row">
+    <label>Travel Date</label>
+    <div class="input-box">
+        <input type="date" name="travel_date" required>
+    </div>
+</div>
+
+<!-- SERVICE -->
+<div class="row">
+    <label>Service Level</label>
+    <div class="input-box">
+        <select name="service_level_id" required>
+            <option value="">Select Option</option>
+            {% for service in service_levels %}
+            <option value="{{ service.id }}">{{ service.service_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<!-- ORGANIZATION -->
+<div class="row">
+    <label>Organization</label>
+    <div class="input-box">
+        <select name="organization_id" required>
+            <option value="">Select Organization</option>
+            {% for organization in organizations %}
+            <option value="{{ organization.id }}">
+                {{ organization.organization_name }} ({{ organization.organization_code }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<!-- POSITION -->
+<div class="row">
+    <label>Position</label>
+    <div class="input-box">
+        <input type="text" name="position" required>
+    </div>
+</div>
+
+<!-- FLIGHT -->
+<div class="row">
+    <label>Flight</label>
+    <div class="input-box">
+        <input type="text" name="flight" required>
+    </div>
+</div>
+
+<!-- ITINERARY -->
+<div class="row">
+    <label>Itinerary Type</label>
+    <div class="input-box">
+        <select name="itinerary" required>
+            <option value="">Select Option</option>
+            <option value="arrival">Arrival</option>
+            <option value="departure">Departure</option>
+        </select>
+    </div>
+</div>
+
+<!-- SPECIAL NEEDS (FIXED) -->
+<div class="row">
+    <label>Special Needs</label>
+    <div class="input-box checkbox-group">
+
+        {% for need in needs %}
+        <label>
+            <input type="checkbox" name="special_need" value="{{ need.id }}">
+            {{ need.need_name }}
+        </label>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- ADDITIONAL -->
+<div class="row">
+    <label>Additional Request</label>
+    <div class="input-box">
+        <input type="text" name="additional_request" required>
+    </div>
+</div>
+
+<!-- SIGNATURE -->
+<div class="row">
+    <label>Passenger Signature</label>
+    <div class="input-box">
+        <input type="file" name="passenger_signature" accept=".png,.jpg,.jpeg" required>
+    </div>
+</div>
+
+<!-- BUTTON -->
+<button type="submit">Register Passenger</button>
+
+<br><br>
+<a href="{{ url_for('admin_dashboard') }}" style="display:block;text-align:center;color:#06844d;">
+    Go Back Admin Page
+</a>
+
+</form>
+</div>
+
+<!-- VALIDATION SCRIPT (FIXED) -->
+<script>
+document.getElementById("form").addEventListener("submit", function(e){
+
+    let name = document.getElementById("passenger_name");
+
+    if(name.value.trim() === ""){
+        e.preventDefault();
+        name.classList.add("error");
+        alert("Passenger name is required");
+    } else {
+        name.classList.remove("error");
+    }
+
+});
+</script>
+
+</body>
+</html>
+
+
+

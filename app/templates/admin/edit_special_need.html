@@ -1,0 +1,88 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">Edit Special Need</h1>
+
+    <div class="card mb-4">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+
+            <i class="fas fa-edit me-1"></i>
+            Edit {{ need.need_name }}
+
+        </div>
+
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+            <form method="POST">
+
+                <!-- SPECIAL NEED NAME -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Special Need Name
+
+                    </label>
+
+                    <input type="text"
+                           name="need_name"
+                           class="form-control"
+                           value="{{ need.need_name }}"
+                           required>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Description
+
+                    </label>
+
+                    <textarea name="description"
+                              class="form-control"
+                              rows="4">{{ need.description or '' }}</textarea>
+
+                </div>
+
+
+                <!-- UPDATE BUTTON -->
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+                    Update Special Need
+
+                </button>
+
+
+                <!-- CANCEL BUTTON -->
+                <a href="{{ url_for(
+                    'view_special_need',
+                    id=need.id
+                ) }}"
+                class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

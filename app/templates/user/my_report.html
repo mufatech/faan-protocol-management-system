@@ -1,0 +1,282 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">My Passenger Report</h1>
+
+    <div class="card mb-4">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+
+            <i class="fas fa-chart-bar me-1"></i>
+
+            My Passenger Report
+
+        </div>
+
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+
+            <!-- FILTER FORM -->
+            <form method="GET"
+                  class="row g-3 mb-4">
+
+                <!-- ORGANIZATION -->
+                <div class="col-md-4">
+
+                    <label class="form-label">
+
+                        Organization
+
+                    </label>
+
+                    <select name="organization_id"
+                            class="form-select">
+
+                        <option value="">
+
+                            -- All Organizations --
+
+                        </option>
+
+                        {% for organization in organizations %}
+
+                            <option
+                                value="{{ organization.id }}"
+
+                                {% if selected_organization == organization.id|string %}
+                                    selected
+                                {% endif %}>
+
+                                {{ organization.organization_name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- START DATE -->
+                <div class="col-md-3">
+
+                    <label class="form-label">
+
+                        Start Date
+
+                    </label>
+
+                    <input type="date"
+                           name="start_date"
+                           class="form-control"
+                           value="{{ start_date }}">
+
+                </div>
+
+
+                <!-- END DATE -->
+                <div class="col-md-3">
+
+                    <label class="form-label">
+
+                        End Date
+
+                    </label>
+
+                    <input type="date"
+                           name="end_date"
+                           class="form-control"
+                           value="{{ end_date }}">
+
+                </div>
+
+
+                <!-- FILTER BUTTONS -->
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button type="submit"
+                            class="btn btn-success me-2">
+
+                        <i class="fas fa-filter"></i>
+                        Filter
+
+                    </button>
+
+
+                    <a href="{{ url_for('my_report') }}"
+                       class="btn btn-secondary">
+
+                        Reset
+
+                    </a>
+
+                </div>
+
+            </form>
+
+
+            <!-- REPORT TABLE -->
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-success">
+
+                        <tr>
+
+                            <th>S/N</th>
+                            <th>Date Registered</th>
+                            <th>Passenger Name</th>
+                            <th>Organization</th>
+                            <th>Travel Date</th>
+                            <th>Flight</th>
+                            <th>Itinerary</th>
+                            <th>Service Level</th>
+                            <th>Special Needs</th>
+                            <th>Additional Request</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for passenger in passengers %}
+
+                        <tr>
+
+                            <!-- S/N -->
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+
+                            <!-- DATE REGISTERED -->
+                            <td>
+                                {{ passenger.date_created }}
+                            </td>
+
+
+                            <!-- PASSENGER NAME -->
+                            <td>
+                                {{ passenger.passenger_name }}
+                            </td>
+
+
+                            <!-- ORGANIZATION -->
+                            <td>
+
+                                {% if passenger.organization %}
+
+                                    {{ passenger.organization.organization_name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- TRAVEL DATE -->
+                            <td>
+                                {{ passenger.travel_date }}
+                            </td>
+
+
+                            <!-- FLIGHT -->
+                            <td>
+                                {{ passenger.flight }}
+                            </td>
+
+
+                            <!-- ITINERARY -->
+                            <td>
+                                {{ passenger.itinerary or 'N/A' }}
+                            </td>
+
+
+                            <!-- SERVICE LEVEL -->
+                            <td>
+
+                                {% if passenger.service_level %}
+
+                                    {{ passenger.service_level.service_name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- SPECIAL NEEDS -->
+                            <td>
+
+                                {% if passenger.special_needs %}
+
+                                    {% for need in passenger.special_needs %}
+
+                                        {{ need.need_name }}{% if not loop.last %}, {% endif %}
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ADDITIONAL REQUEST -->
+                            <td>
+                                {{ passenger.additional_request or 'N/A' }}
+                            </td>
+
+                        </tr>
+
+
+                        <!-- NO REPORT -->
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="10"
+                                class="text-center">
+
+                                <strong>
+                                    No passenger records found.
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

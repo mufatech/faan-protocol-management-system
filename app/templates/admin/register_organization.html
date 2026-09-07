@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FAAN PROTOCOL ORGANIZATION REGISTER</title>
+    <style>
+        body {
+            background: #f2f3f3;
+            background-size: cover;
+            background-position: top right;
+            width: 100%;
+        }
+
+        .maincountanier {
+
+            margin: auto;
+            width: 50%;
+            background: rgb(227, 227, 227);
+            background: radial-gradient(circle, rgba(227, 227, 227, 1) 0%, rgba(224, 218, 255, 1) 48%, rgba(254, 245, 255, 1) 100%, rgba(106, 47, 119, 1) 100%);
+            border-radius: 0px 100px 0px 100px;
+            font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+
+
+
+        }
+
+        h1 {
+
+            color: white;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 30px;
+            box-sizing: border-box;
+            font-size: 30px;
+            border-radius: 0px 100px 0px 100px;
+            width: 100%;
+            background: #06844d;
+        }
+
+        .overflow {
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+
+        }
+
+
+        .floatleft {
+            float: left;
+            width: 33.33%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .floatleftinput {
+
+            float: left;
+            width: 33.33%;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .floatleftinput1 {
+            float: left;
+            width: 66.66%;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .width100 {
+            float: left;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .buttonwidth {
+            float: left;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+
+        .buttonwidth a {
+            text-decoration: none;
+            padding-right: 60px;
+
+        }
+
+
+        .input1 {
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            padding: 15px;
+            width: 90%;
+            box-sizing: border-box;
+            display: display inline-block;
+
+
+
+        }
+
+        .input2 {
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            padding: 15px;
+            width: 90%;
+            box-sizing: border-box;
+            display: display inline-block;
+
+        }
+
+        .input3 {
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            padding: 15px;
+            width: 85%;
+            box-sizing: border-box;
+            display: display inline-block;
+        }
+
+        .p1 {
+            font-weight: bold;
+            margin-top: 13px;
+            font-size: 20px;
+            opacity: 0.8;
+        }
+
+        .p2 {
+
+            font-weight: bold;
+            font-size: 20px;
+            opacity: 0.8;
+        }
+
+
+        .mrgtp {
+            margin-top: 9px;
+
+        }
+
+        button {
+
+            border: none;
+            padding: 10px;
+            border-radius: 0px 15px 0px 15px;
+            background: #06844d;
+            color: white;
+            width: 25%;
+            font-size: 20px;
+
+
+        }
+
+        button:hover {
+            opacity: 0.7;
+        }
+
+        .absloute {
+            position: absolute;
+        }
+
+        .errors {
+            background-color: rgba(255, 0, 0, 0.473);
+        }
+
+        .rights {
+            background-color: white;
+        }
+
+
+        input:hover {
+
+            -webkit-box-shadow: inset 16px 11px 15px 1px rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: inset 16px 11px 15px 1px rgba(0, 0, 0, 0.15);
+            box-shadow: inset 16px 11px 15px 1px rgba(0, 0, 0, 0.15);
+        }
+
+        @media(max-width: 1000px) {
+            .box {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .floatleft,
+            .floatleftinput,
+            .floatleftinput1 {
+                width: 100%;
+                /* Make these elements occupy the full width */
+                float: none;
+                /* Clear the float for small screens */
+            }
+
+            .floatleft {
+                text-align: left;
+                /* Align text left for paragraphs */
+            }
+
+            .overflow.box {
+                padding: 10px 0;
+                /* Add some vertical spacing */
+            }
+
+            .input1,
+            .input2,
+            .input3 {
+                width: 100%;
+                /* Make inputs occupy the full width */
+                display: block;
+                /* Display inputs as block elements */
+                margin-bottom: 10px;
+                /* Add some vertical spacing between inputs */
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="maincountanier box">
+
+        <div>
+            <h1>ORGANIZATION FORM</h1>
+        </div>
+        <form action="" method="POST">
+            <h3 style="text-align: center; color: red;">
+
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+
+                {{ message }}
+
+
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </h3>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Organization Name:</p>
+                </div>
+                <div class="floatleftinput mrgtp">
+                    <input class="input1 right1" name="organization_name" type="text" id="error1" placeholder="Organization Name"
+                        required>
+            </div>
+
+             <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Address:</p>
+                </div>
+                <div class="floatleftinput mrgtp">
+                    <input class="input1 right1" name="address" type="text" id="error1" placeholder="Organization Address"
+                        required>
+            </div>
+
+             <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Contact Person:</p>
+                </div>
+                <div class="floatleftinput mrgtp">
+                    <input class="input1 right1" name="contact_person" type="text" id="error1" placeholder="Contact Person"
+                        required>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Phone Number</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input class="input2" type="tel" name="phone_number" placeholder="Phone Number" required>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Email:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input class="input2 right3" type="email" name="email" placeholder="Enter your Email" id="error3"
+                        required>
+                </div>
+            </div>
+
+            <!-- <div class="overflow box">
+        <div class="floatleft">
+            <p class="p2">Branch:</p>
+        </div>
+        <div class="floatleftinput1 mrgtp">
+            <select style="font-size: 18px;" class="input2" name="category" id="" required>
+                <option value="" disabled selected>Select Option</option>
+                <option value="adults">Adult</option>
+                <option value="teens">Teen</option>
+                <option value="children">Children</option>
+            </select>
+        </div>
+    </div> -->
+
+            <!-- <div class="overflow box">
+        <div class="floatleft">
+            <p class="p2">Zone:</p>
+        </div>
+        <div class="floatleftinput1 mrgtp">
+            <select style="font-size: 18px;" class="input2" name="zone" id="zoneSelect" required>
+                <option value="" disabled selected>Select Option</option>
+                <option value="Zone 2">Zone 2</option>
+                <option value="Zone 3">Zone 3</option>
+            </select>
+        </div>
+    </div>
+     -->
+            <!-- <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Branch:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <select style="font-size: 18px;" class="input2" name="branch" id="branchSelect" required>
+                        <option value="option">Select a Branch</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Gender:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input id="male" type="radio" name="gender" value="Male"><label class="p1" for="male">Male</label>
+                    <input id="divorced" type="radio" name="gender" value="Female"><label class="p1"
+                        for="female">Female</label>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Marital Status:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input id="married" type="radio" name="marital_status" value="Married"><label class="p1"
+                        for="married">Married</label> <br>
+                    <input id="engaged" type="radio" name="marital_status" value="Engaged"><label class="p1"
+                        for="engaged">Engaged</label> <br>
+                    <input id="single&searching" type="radio" name="marital_status" value="Single&searching"><label
+                        class="p1" for="Single&searching">Single & Searching</label> <br>
+                    <input id="single" type="radio" name="marital_status" value="Single"><label class="p1"
+                        for="single">Single</label>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Category:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <select style="font-size: 18px;" class="input2" name="category" id="" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="adults">Adult</option>
+                        <option value="teens">Teen</option>
+                        <option value="children">Children</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Age Range:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <select style="font-size: 18px;" class="input2" name="age_range" id="" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="18-above">17YRS-Above</option>
+                        <option value="13-17">13-16YRS</option>
+                        <option value="4-12">4-12YRS</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Payment Date:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input class="input2" type="date" id="date" name="payment_date" required>
+                </div>
+            </div> -->
+
+            <!-- <div class="overflow box">
+        <div class="floatleft">
+            <p class="p2">Mode of Payment:</p>
+        </div>
+        <div class="floatleftinput1 mrgtp">
+            <select style="font-size: 18px;" class="input2" name="payment_mode" id="" required>
+                <option value="" disabled selected>Select Option</option>
+                <option value="Mobile Transfer">Mobile Transfer</option>
+                <option value="Bank Deposit">Bank Deposit</option>
+                <option value="USSD">USSD</option>
+                <option value="POS">POS</option>
+            </select>
+        </div>
+    </div> -->
+
+            <!-- <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Registration PIN:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <input class="input2" type="text" name="registration_pin" placeholder="Registration PIN" required>
+                </div>
+            </div>
+
+
+            <div class="overflow box">
+                <div class="floatleft">
+                    <p class="p2">Expectations:</p>
+                </div>
+                <div class="floatleftinput1 mrgtp">
+                    <textarea class="input2" name="expectations" rows="4" placeholder="Your Expectations"></textarea>
+                </div>
+            </div> -->
+
+            <!-- <div class="overflow box">
+        <div class="floatleft">
+            <p class="p2">Massage Session:</p>
+        </div>
+        <div class="floatleftinput1 mrgtp">
+            <select style="font-size: 18px;" class="input2" name="massage" id="" required>
+                <option value="" disabled selected>Select Option</option>
+                <option value="Yes">Yes</option>
+                 <option value="No">No</option>
+            </select>
+        </div>
+    </div> -->
+
+            <div class="overflow box">
+                <div class="buttonwidth">
+                    <a href="{{ url_for('admin_dashboard') }}">Go Back Admin Page</a>
+                    <button type="submit" id="click">Register Organization</button>
+                </div>
+            </div>
+        </form>
+
+
+
+    </div>
+
+
+
+</body>
+<script>
+    
+    $("#click").click(function () {
+
+        if ($("#error1").val() == '') {
+            $("#error1").addClass("errors")
+
+        }
+        else { $(".right1").addClass("rights") }
+
+
+
+        if ($("#error2").val() == '') {
+            $("#error2").addClass("errors")
+
+        }
+        else { $(".right2").addClass("rights") }
+
+        if ($("#error3").val() == '') {
+            $("#error3").addClass("errors")
+
+        }
+        else { $(".right3").addClass("rights") }
+
+        if ($("#error4").val() == '') {
+            $("#error4").addClass("errors")
+
+
+        }
+        else { $(".right4").addClass("rights") }
+
+        if ($("#error5").val() == '') {
+            $("#error5").addClass("errors")
+
+        }
+        else { $(".right5").addClass("rights") }
+    })
+
+</script>
+
+<script>
+    const dateNoww = document.getElementById('date');
+    // Set the max date to today's date for the "date" input field
+    const Nnow = new Date().toISOString().slice(0, 10);  // Get current datetime in yyyy-mm-ddThh:mm format
+    dateNoww.setAttribute('max', Nnow);
+
+
+    // Get references to the select elements
+    // const zoneSelect = document.getElementById('zoneSelect');
+    const branchSelect = document.getElementById('branchSelect');
+
+    // Define branch options for each the Branches 
+    const branchOptions = {
+        'Branches': ['Isolo', 'Iyana Ipaja', 'Ipaja', 'Mafoluku/Oshodi', 'Ikotun', 'Alakuko/Alagbado', 'Iju/Oko Oba', 'Oke-Odo pipeline', 'Jankara/Ojokoro', 'Ejigbo', 'Meiran', 'Abule Egba', 'Dopemu/Agege', 'Bada/Ayobo', 'Ijegun', 'Shasha', 'Abaranje/Okerube', 'Ajasa/Command', 'Igando/Egan/Akesan', 'Arida Branch', 'Akinyode Group'],
+
+    };
+
+    // Get the branches array
+    const branches = branchOptions['Branches']; // Retrieve branches for the "Branches" zone
+
+
+    // Populate the select dropdown
+    branches.forEach(branch => {
+        const option = document.createElement("option");
+        option.value = branch;  // Set the value attribute
+        option.textContent = branch;  // Set the display text
+        branchSelect.appendChild(option);  // Add the option to the select element
+    });
+
+    // Function to update branch options based on selected zone
+    // function updateBranchOptions() {
+    //     const selectedZone = zoneSelect.value;
+    // Clear existing options
+    //     branchSelect.innerHTML = '';
+    //     // Add default "Select Option" option
+    //     const defaultOption = document.createElement('option');
+    //     defaultOption.value = '';
+    //     defaultOption.textContent = 'Select Option';
+    //     branchSelect.appendChild(defaultOption);
+    //     // Add branch options based on the selected zone
+    //     branchOptions[selectedZone].forEach((branch) => {
+    //         const option = document.createElement('option');
+    //         option.value = branch;
+    //         option.textContent = branch;
+    //         branchSelect.appendChild(option);
+    //     });
+    // }
+
+    // // Add event listener to the zone select element
+    // zoneSelect.addEventListener('change', updateBranchOptions);
+
+    // // Initialize the branch options based on the default zone
+    // updateBranchOptions();
+
+</script>
+
+
+<!-- <script>
+    // Get references to the select elements
+    const zoneSelect = document.getElementById('zoneSelect');
+    const branchSelect = document.getElementById('branchSelect');
+
+    // Define branch options for each zone
+    const branchOptions = {
+        'Zone 2': ['Isolo', 'Iyana Ipaja', 'Ipaja', 'Mafoluku/Oshodi', 'Ikotun', 'Alakuko/Alagbado', 'Iju/Oko Oba', 'Oke-Odo pipeline', 'Jankara/Ojokoro', 'Ejigbo', 'Meiran', 'Abule Egba', 'Dopemu/Agege', 'Bada/Ayobo', 'Ijegun', 'Shasha', 'Abaranje/Okerube', 'Ajasa/Command', 'Igando/Egan/Akesan', 'Arida Branch', 'Akinyode Group'],
+        
+    };
+
+    // Function to update branch options based on selected zone
+    function updateBranchOptions() {
+        const selectedZone = zoneSelect.value;
+        // Clear existing options
+        branchSelect.innerHTML = '';
+        // Add default "Select Option" option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select Option';
+        branchSelect.appendChild(defaultOption);
+        // Add branch options based on the selected zone
+        branchOptions[selectedZone].forEach((branch) => {
+            const option = document.createElement('option');
+            option.value = branch;
+            option.textContent = branch;
+            branchSelect.appendChild(option);
+        });
+    }
+
+    // Add event listener to the zone select element
+    zoneSelect.addEventListener('change', updateBranchOptions);
+
+    // Initialize the branch options based on the default zone
+    updateBranchOptions();
+
+</script> -->
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Passenger</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .card {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #06844d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>Passenger Details</h2>
+
+    <p><b>Name:</b> {{ passenger.passenger_name }}</p>
+    <p><b>Travel Date:</b> {{ passenger.travel_date }}</p>
+    <p><b>Organization:</b> {{ passenger.organization.organization_name }}</p>
+    <p><b>Service Level:</b> {{ passenger.service_level.service_name }}</p>
+    <p><b>Flight:</b> {{ passenger.flight }}</p>
+    <p><b>Position:</b> {{ passenger.position }}</p>
+    <p><b>Itinerary:</b> {{ passenger.itinerary }}</p>
+    <p><b>Special Need:</b> {{ passenger.special_needs.need_name }}</p>
+    <p><b>Additional Request:</b> {{ passenger.additional_request }}</p>
+
+    
+    <a class="btn view" href="{{ url_for('view_passenger', id=passenger.id) }}">
+        View
+    </a>
+    <a class="back" href="{{ url_for('passenger_report') }}">
+        ← Back to Report
+    </a>
+
+</div>
+
+</body>
+</html>

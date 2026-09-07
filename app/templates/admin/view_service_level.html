@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">Service Level Details</h1>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            <i class="fas fa-list me-1"></i>
+            {{ service_level.service_name }}
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="30%">Service Name</th>
+
+                    <td>
+                        {{ service_level.service_name }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Description</th>
+
+                    <td>
+                        {{ service_level.description or 'N/A' }}
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <a href="{{ url_for(
+                'edit_service_level',
+                id=service_level.id
+            ) }}"
+               class="btn btn-warning">
+
+                <i class="fas fa-edit"></i>
+                Edit Service Level
+
+            </a>
+
+
+            <a href="{{ url_for('service_levels') }}"
+               class="btn btn-secondary">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

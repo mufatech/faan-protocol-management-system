@@ -1,0 +1,68 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <h2 class="mb-0">User Dashboard</h2>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4">
+
+              
+        <!-- Passengers -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase">Passengers</h6>
+                            <h2 class="mb-0">{{ passenger_count }}</h2>
+                        </div>
+                        <i class="fas fa-users fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-5">
+
+        <div class="col-lg-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+                              
+
+                        <div class="col-md-3">
+                            <a href="{{ url_for('register_passenger') }}" class="btn btn-success w-100">
+                                + Add Passenger
+                            </a>
+                        </div>
+
+                        
+
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

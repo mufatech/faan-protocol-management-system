@@ -1,0 +1,97 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">User Details</h1>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            <i class="fas fa-user"></i>
+
+            {{ user.fullname }}
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Full Name</strong>
+
+                    <p>
+                        {{ user.fullname }}
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Email</strong>
+
+                    <p>
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-12 mb-3">
+
+                    <strong>Officer Signature</strong>
+
+                    <br><br>
+
+                    {% if user.officer_signature %}
+
+                        <img src="{{ url_for(
+                            'static',
+                            filename=user.officer_signature.replace('uploads/', '')
+                        ) }}"
+                        alt="Officer Signature"
+                        style="max-width:300px; max-height:150px;">
+
+                    {% else %}
+
+                        <p class="text-muted">
+                            No signature uploaded.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <a href="{{ url_for('edit_user', id=user.id) }}"
+               class="btn btn-warning">
+
+                <i class="fas fa-edit"></i>
+                Edit
+
+            </a>
+
+
+            <a href="{{ url_for('users') }}"
+               class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left"></i>
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Need</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #06844d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #046c3d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            background: #06844d;
+            color: white;
+            padding: 10px;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover {
+            background: #f1f1f1;
+        }
+
+        hr {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Register Special Need</h2>
+     
+    <a href="{{ url_for('admin_dashboard')}}"> ← Back to Admin Dashboard </a>
+                       
+    <form method="POST">
+
+        <label>Need Name</label>
+        <input type="text" name="need_name" placeholder="Enter need name" required>
+
+        <label>Description</label>
+        <textarea name="description" placeholder="Optional description"></textarea>
+
+        <button type="submit">Add Special Need</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Existing Special Needs</h3>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Need Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+
+        </tr>
+
+        {% for need in needs %}
+        <tr>
+            <td>{{ need.id }}</td>
+            <td>{{ need.need_name }}</td>
+            <td>{{ need.description }}</td>
+            <td>
+
+            <a href="{{ url_for('edit_special_need', id=need.id) }}">
+                ✏️ Edit
+            </a>
+
+            |
+
+            <a href="{{ url_for('delete_special_need', id=need.id) }}"
+               onclick="return confirm('Are you sure you want to delete this item?')">
+                🗑 Delete
+            </a>
+
+        </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

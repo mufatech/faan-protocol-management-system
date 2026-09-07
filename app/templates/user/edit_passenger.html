@@ -1,0 +1,309 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">Edit Passenger</h1>
+
+    <div class="card mb-4">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+
+            <i class="fas fa-edit me-1"></i>
+
+            Edit {{ passenger.passenger_name }}
+
+        </div>
+
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- PASSENGER NAME -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Passenger Name
+
+                        </label>
+
+                        <input type="text"
+                               name="passenger_name"
+                               class="form-control"
+                               value="{{ passenger.passenger_name }}"
+                               required>
+
+                    </div>
+
+
+                    <!-- TRAVEL DATE -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Travel Date
+
+                        </label>
+
+                        <input type="date"
+                               name="travel_date"
+                               class="form-control"
+                               value="{{ passenger.travel_date }}"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <!-- ORGANIZATION -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Organization
+
+                        </label>
+
+                        <select name="organization_id"
+                                class="form-select"
+                                required>
+
+                            {% for organization in organizations %}
+
+                                <option
+                                    value="{{ organization.id }}"
+
+                                    {% if organization.id == passenger.organization_id %}
+                                        selected
+                                    {% endif %}>
+
+                                    {{ organization.organization_name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SERVICE LEVEL -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Service Level
+
+                        </label>
+
+                        <select name="service_level_id"
+                                class="form-select"
+                                required>
+
+                            {% for service_level in service_levels %}
+
+                                <option
+                                    value="{{ service_level.id }}"
+
+                                    {% if service_level.id == passenger.service_level_id %}
+                                        selected
+                                    {% endif %}>
+
+                                    {{ service_level.service_name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <!-- POSITION -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Position
+
+                        </label>
+
+                        <input type="text"
+                               name="position"
+                               class="form-control"
+                               value="{{ passenger.position or '' }}">
+
+                    </div>
+
+
+                    <!-- FLIGHT -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Flight
+
+                        </label>
+
+                        <input type="text"
+                               name="flight"
+                               class="form-control"
+                               value="{{ passenger.flight }}"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ITINERARY -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Itinerary
+
+                    </label>
+
+                    <select name="itinerary"
+                            class="form-select">
+
+                        <option value="">
+
+                            -- Select Itinerary --
+
+                        </option>
+
+                        <option value="arrival"
+                            {% if passenger.itinerary == 'arrival' %}
+                                selected
+                            {% endif %}>
+
+                            Arrival
+
+                        </option>
+
+                        <option value="departure"
+                            {% if passenger.itinerary == 'departure' %}
+                                selected
+                            {% endif %}>
+
+                            Departure
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SPECIAL NEEDS -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Special Needs
+
+                    </label>
+
+
+                    <div class="row">
+
+                        {% for need in needs %}
+
+                        <div class="col-md-4">
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="special_need"
+                                    value="{{ need.id }}"
+                                    id="need{{ need.id }}"
+
+                                    {% if need in passenger.special_needs %}
+                                        checked
+                                    {% endif %}>
+
+                                <label
+                                    class="form-check-label"
+                                    for="need{{ need.id }}">
+
+                                    {{ need.need_name }}
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADDITIONAL REQUEST -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Additional Request
+
+                    </label>
+
+                    <textarea
+                        name="additional_request"
+                        class="form-control"
+                        rows="4">{{ passenger.additional_request or '' }}</textarea>
+
+                </div>
+
+
+                <!-- ACTION BUTTONS -->
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+                    Update Passenger
+
+                </button>
+
+
+                <a href="{{ url_for(
+                    'view_my_passenger',
+                    id=passenger.id
+                ) }}"
+                class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

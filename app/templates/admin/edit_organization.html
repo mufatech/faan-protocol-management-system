@@ -1,0 +1,132 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">Edit Organization</h1>
+
+    <div class="card mb-4">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+
+            <i class="fas fa-edit me-1"></i>
+            Edit Organization
+
+        </div>
+
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+            <form method="POST">
+
+                <!-- ORGANIZATION NAME -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Organization Name
+                    </label>
+
+                    <input type="text"
+                           name="organization_name"
+                           class="form-control"
+                           value="{{ organization.organization_name }}"
+                           required>
+
+                </div>
+
+
+                <!-- ADDRESS -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Address
+                    </label>
+
+                    <textarea name="address"
+                              class="form-control"
+                              rows="3"
+                              required>{{ organization.address }}</textarea>
+
+                </div>
+
+
+                <!-- CONTACT PERSON -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Contact Person
+                    </label>
+
+                    <input type="text"
+                           name="contact_person"
+                           class="form-control"
+                           value="{{ organization.contact_person }}"
+                           required>
+
+                </div>
+
+
+                <!-- PHONE NUMBER -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Phone Number
+                    </label>
+
+                    <input type="text"
+                           name="phone_number"
+                           class="form-control"
+                           value="{{ organization.phone_number }}"
+                           required>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email Address
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           class="form-control"
+                           value="{{ organization.email }}"
+                           required>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+                    Update Organization
+
+                </button>
+
+
+                <a href="{{ url_for(
+                    'view_organization',
+                    id=organization.id
+                ) }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

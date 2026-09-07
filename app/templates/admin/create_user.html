@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Level</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #06844d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #046c3d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            background: #06844d;
+            color: white;
+            padding: 10px;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover {
+            background: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .edit {
+            color: #007bff;
+        }
+
+        .delete {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Create User</h2>
+
+    <a href="{{ url_for('admin_dashboard')}}">  ← Back to Admin Dashboard </a>
+                       
+                   
+
+    <!-- CREATE FORM -->
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Full Name</label>
+        <input type="text" name="fullname" placeholder="Enter full name" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter Email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter Password" required>
+
+        <label>Officer Signature</label>
+        <input type="file" name="officer_signature" accept=".png,.jpg,.jpeg" required>
+
+
+        <button type="submit">Add User</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Existing users</h3>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Signature</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.fullname }}</td>
+            <td>{{ user.email }}</td>
+
+            <td>
+                {% if user.officer_signature %}
+                    <img src="{{ url_for('static', filename=user.officer_signature) }}"
+                        width="80"
+                        height="40"
+                        alt="Signature">
+                {% else %}
+                    No Signature
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

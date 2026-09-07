@@ -1,0 +1,278 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4">
+
+    <h1 class="mt-4">Passenger Details</h1>
+
+    <div class="card mb-4">
+
+        <!-- CARD HEADER -->
+        <div class="card-header">
+
+            <i class="fas fa-user me-1"></i>
+
+            {{ passenger.passenger_name }}
+
+        </div>
+
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- PASSENGER INFORMATION -->
+                <div class="col-md-8">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+
+                            <th width="35%">
+                                Passenger Name
+                            </th>
+
+                            <td>
+                                {{ passenger.passenger_name }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Travel Date
+                            </th>
+
+                            <td>
+                                {{ passenger.travel_date }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Organization
+                            </th>
+
+                            <td>
+
+                                {% if passenger.organization %}
+
+                                    {{ passenger.organization.organization_name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Service Level
+                            </th>
+
+                            <td>
+
+                                {% if passenger.service_level %}
+
+                                    {{ passenger.service_level.service_name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Position
+                            </th>
+
+                            <td>
+                                {{ passenger.position or 'N/A' }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Flight
+                            </th>
+
+                            <td>
+                                {{ passenger.flight }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Itinerary
+                            </th>
+
+                            <td>
+                                {{ passenger.itinerary or 'N/A' }}
+                            </td>
+
+                        </tr>
+
+
+                        <!-- SPECIAL NEEDS -->
+                        <tr>
+
+                            <th>
+                                Special Needs
+                            </th>
+
+                            <td>
+
+                                {% if passenger.special_needs %}
+
+                                    {% for need in passenger.special_needs %}
+
+                                        <span class="badge bg-info text-dark">
+
+                                            {{ need.need_name }}
+
+                                        </span>
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Additional Request
+                            </th>
+
+                            <td>
+                                {{ passenger.additional_request or 'N/A' }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Date Registered
+                            </th>
+
+                            <td>
+                                {{ passenger.date_created }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+
+                <!-- PASSENGER SIGNATURE -->
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            Passenger Signature
+
+                        </div>
+
+
+                        <div class="card-body text-center">
+
+                            {% if passenger.passenger_signature %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename=passenger.passenger_signature
+                                    ) }}"
+                                    class="img-fluid"
+                                    style="max-height:150px;">
+
+                            {% else %}
+
+                                <p class="text-muted">
+
+                                    No signature available.
+
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+            <div class="mt-3">
+
+                <a href="{{ url_for(
+                    'edit_my_passenger',
+                    id=passenger.id
+                ) }}"
+                class="btn btn-warning">
+
+                    <i class="fas fa-edit"></i>
+                    Edit Passenger
+
+                </a>
+
+
+                <a href="{{ url_for('my_passengers') }}"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
