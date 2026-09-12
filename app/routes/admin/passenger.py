@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for
 from app import app, db
-from app.models.forms import  Organization, Passenger, ServiceLevel, SpecialNeed
-from flask_login import login_required, current_user
+from app.models.forms import Organization, Passenger, ServiceLevel, SpecialNeed
+from app.utils.decorators import admin_required
 from werkzeug.utils import secure_filename
 import os
 
+
 @app.route('/passengers')
-@login_required
+@admin_required
 def passengers():
 
     passengers = Passenger.query.order_by(
@@ -18,15 +19,21 @@ def passengers():
         passengers=passengers
     )
 
-@app.route('/passenger/<int:id>')
-def view_passenger(id):
-    passenger = Passenger.query.get_or_404(id)
-    return render_template('admin/view_passenger.html', passenger=passenger)
 
+@app.route('/passenger/<int:id>')
+@admin_required
+def view_passenger(id):
+
+    passenger = Passenger.query.get_or_404(id)
+
+    return render_template(
+        'admin/view_passenger.html',
+        passenger=passenger
+    )
 
 
 @app.route('/edit-passenger/<int:id>', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def edit_passenger(id):
 
     passenger = Passenger.query.get_or_404(id)
@@ -44,7 +51,9 @@ def edit_passenger(id):
         passenger.position = request.form['position']
         passenger.flight = request.form['flight']
         passenger.itinerary = request.form['itinerary']
-        passenger.additional_request = request.form.get('additional_request')
+        passenger.additional_request = request.form.get(
+            'additional_request'
+        )
 
         # Update special needs
         selected_needs = request.form.getlist('special_need')
@@ -58,17 +67,26 @@ def edit_passenger(id):
             if need:
                 passenger.special_needs.append(need)
 
-        #Update Signature
+        # Update passenger signature
         signature = request.files.get('passenger_signature')
 
         if signature and signature.filename:
 
             filename = secure_filename(signature.filename)
 
+            signature_folder = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'passenger_signatures'
+            )
+
+            os.makedirs(
+                signature_folder,
+                exist_ok=True
+            )
+
             signature.save(
                 os.path.join(
-                    app.config['UPLOAD_FOLDER'],
-                    'passenger_signatures',
+                    signature_folder,
                     filename
                 )
             )
@@ -76,6 +94,7 @@ def edit_passenger(id):
             passenger.passenger_signature = (
                 f'uploads/passenger_signatures/{filename}'
             )
+
         db.session.commit()
 
         return redirect(
@@ -93,8 +112,9 @@ def edit_passenger(id):
         needs=special_needs
     )
 
+
 @app.route('/delete-passenger/<int:id>', methods=['POST'])
-@login_required
+@admin_required
 def delete_passenger(id):
 
     passenger = Passenger.query.get_or_404(id)
@@ -102,5 +122,6 @@ def delete_passenger(id):
     db.session.delete(passenger)
     db.session.commit()
 
-    return redirect(url_for('passengers'))
-
+    return redirect(
+        url_for('passengers')
+    )

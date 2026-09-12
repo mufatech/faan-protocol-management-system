@@ -1,175 +1,658 @@
-# Event Registration System
+# FAAN Airport Protocol Management System
 
-## Overview
+A web-based **Airport Protocol Management System** developed to streamline the registration, management, tracking, and reporting of protocol passengers and related information within the **Federal Airports Authority of Nigeria (FAAN)**.
 
-The Event Registration System is a sophisticated web application developed using Flask, designed to streamline the user registration process for an upcoming event. It consists of two main modules: the Admin Dashboard and the User Registration.
+The system provides a centralized platform for managing passenger information, organizations, service levels, special needs, protocol officers, and administrative activities.
 
-## Features
+---
 
-### Admin Area
+## 📌 Project Overview
 
-#### 1. **Login Page**
-   - Secure login for administrators to access the admin dashboard.
+The FAAN Airport Protocol Management System is designed to replace manual and fragmented passenger-record management processes with a secure, organized, and user-friendly digital solution.
 
-#### 2. **Admin Dashboard**
-   - Comprehensive overview of system analytics.
-   - Quick access to various administrative functionalities.
+The application enables authorized personnel to:
 
-#### 3. **Generate Pin Page**
-   - Capability for administrators to generate registration pins for three distinct categories: children, teens, and adults.
+* Register and manage protocol passengers
+* Capture passenger travel information
+* Record passenger signatures
+* Associate passengers with organizations
+* Manage service levels
+* Manage passenger special needs
+* Manage system users
+* Activate or deactivate user accounts
+* Generate passenger reports
+* Export reports to Excel
+* Generate downloadable PDF reports
+* Track the officer/user who registered a passenger
+* Provide role-based access to system functions
 
-#### 4. **View Unused Pins**
-   - Admins can easily review a list of unused registration pins.
+---
 
-#### 5. **View Used Pins**
-   - Detailed list of used registration pins, aiding in tracking and management.
+## 🚀 Key Features
 
-#### 6. **User Analytics**
-   - In-depth analytical insights into registered users, including:
-     - Total users registered.
-     - Percentage of female and male users.
-     - Percentage of users from Zone 2 and Zone 3.
-     - Percentage of registered teens, children, and adults.
+### 1. User Authentication
 
-#### 7. **Pin Analytics**
-   - Analytics related to registration pins, including:
-     - Total pins generated, used, and unused.
-     - Percentage distribution for each pin category.
+The system supports role-based authentication for:
 
-#### 8. **View Registered Users**
-   - Admins have the ability to view detailed information about all registered users.
-   - Displays user information, including name, email, zone, and expectations.
+* **Administrator**
+* **Protocol Officer**
+* **Normal User**
 
-### User Area
+Each role has access to the functions appropriate to its responsibilities.
 
-#### 1. **User Registration**
-   - User-friendly registration process allowing users to register for the event using a valid registration pin.
-   - Confirmation email sent upon successful registration.
+The authentication system also supports maintaining separate Admin and User sessions within the same browser environment.
 
-## Usage
+---
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/your-username/event-registration-system.git
-   ```
+### 2. Passenger Registration
 
-2. **Navigate to the Project Directory:**
-   ```bash
-   cd event-registration-system
-   ```
+Authorized users can register passengers with information including:
 
-3. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+* Passenger name
+* Travel date
+* Position
+* Flight
+* Itinerary
+* Organization
+* Service level
+* Additional requests
+* Special needs
+* Passenger signature
 
-4. **Set Up the Database:**
-   ```bash
-   flask db init
-   flask db migrate
-   flask db upgrade
-   ```
+Passenger records are linked to the user who registered them.
 
-5. **Run the Application:**
-   ```bash
-   flask run
-   ```
+---
 
-6. **Open Your Web Browser:**
-   Visit [http://localhost:5000](http://localhost:5000).
+### 3. Organization Management
 
-## Demo Video
+Administrators can:
 
-[Watch Demo Video](https://youtu.be/_VzK4JuSIMc) - Attach a link to the demo video.
+* Register organizations
+* View organizations
+* Edit organization information
+* Delete organizations
+* Store contact information
 
-## Screenshots
+Organization records can then be associated with registered passengers.
 
-### Admin Dashboard
-- ![Screenshot (149)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/01c61eb8-6489-447a-8db8-d23597e66d41)
-- ![Screenshot (150)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/516dfc44-de39-4002-a1d1-bb510c619703)
-- ![Screenshot (151)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/c4631819-2a0e-4bc7-9681-26566e6aa2ad)
-- ![Screenshot (152)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/9f0794ed-becf-4d8e-9273-936244792a39)
-- ![Screenshot (153)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/1130b2f5-b68e-4d3b-a7cf-9c59cad24271)
-- ![Screenshot (154)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/21bd5e44-c8b9-4fcb-b844-f904f89163aa)
-- ![Screenshot (155)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/9e24bee7-76c6-4d32-a201-4eb1d436e6db)
+---
 
-### User Registration
-- ![Screenshot (141)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/a8ee82ae-4305-4475-ba76-34a26781e922)
-- ![Screenshot (148)](https://github.com/BrightDaniel/Nasfat_Project/assets/107191784/e63f4f3b-abd0-4525-9706-8ab678528d1b)
+### 4. Service Level Management
 
+Administrators can create and manage service levels used during passenger registration.
 
-## Contribution Guidelines
+Each service level contains:
 
-### Setup Development Environment
+* Service name
+* Description
 
-1. **Fork the Repository:**
-   - Click on the "Fork" button on the top right of the repository page.
+---
 
-2. **Clone Your Fork:**
-   ```bash
-   git clone https://github.com/your-username/event-registration-system.git
-   ```
+### 5. Special Needs Management
 
-3. **Create a Virtual Environment:**
-   ```bash
-   python -m venv venv
-   ```
+The system provides a centralized list of passenger special needs.
 
-4. **Activate the Virtual Environment:**
-   - Windows: `venv\Scripts\activate`
-   - MacOS/Linux: `source venv/bin/activate`
+Administrators can:
 
-5. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+* Add special needs
+* Edit special needs
+* View special needs
+* Delete special needs
 
-6. **Set Up Local Database:**
-   ```bash
-   flask db init
-   flask db migrate
-   flask db upgrade
-   ```
+Multiple special needs can be assigned to a passenger during registration.
 
-7. **Run the Development Server:**
-   ```bash
-   flask run
-   ```
+---
 
-### Contribution Process
+### 6. User Management
 
-1. **Create a Branch:**
-   ```bash
-   git checkout -b feature/new-feature
-   ```
+Administrators can manage system users.
 
-2. **Make Changes:**
-   - Implement your desired feature or bug fix.
+Available functions include:
 
-3. **Commit Changes:**
-   ```bash
-   git add .
-   git commit -m "Add your descriptive commit message"
-   ```
+* Create users
+* View users
+* Edit users
+* Activate/deactivate users
+* Upload officer signatures
+* Manage user roles
 
-4. **Push to Your Fork:**
-   ```bash
-   git push origin feature/new-feature
-   ```
+User roles currently include:
 
-5. **Open a Pull Request:**
-   - Submit a pull request from your branch to the main repository.
+```text
+admin
+protocol
+user
+```
 
-## Dependencies
+---
 
-- Flask
-- Flask-Mail
-- PyMySQL
+### 7. Passenger Reports
 
-## Contributors
+The system provides passenger reporting functionality with filtering options.
 
-- [Bright Daniel](https://github.com/brightdaniel)
-- [Bwave ICT](https://github.com/bwaveICT/)
-- Additional Contributors
+Reports can be generated based on available passenger information and can include:
 
-Feel free to contribute to the project by opening issues or submitting pull requests.
+* Passenger details
+* Travel information
+* Organization
+* Service level
+* Special needs
+* Registering officer
+* Officer signature
+
+---
+
+### 8. Excel Export
+
+Passenger reports can be exported to Microsoft Excel.
+
+The Excel reports are formatted for improved readability and include appropriate headings and passenger information.
+
+---
+
+### 9. PDF Export
+
+Passenger reports can also be generated as PDF documents.
+
+The PDF reporting system supports:
+
+* FAAN branding
+* Landscape A4 layout
+* Passenger information
+* Officer information
+* Officer signature
+* Structured report tables
+
+---
+
+## 👥 User Roles
+
+### Administrator
+
+The Administrator has the highest level of access.
+
+Administrators can:
+
+* Access the Admin Dashboard
+* Manage users
+* Manage organizations
+* Manage service levels
+* Manage special needs
+* Register passengers
+* View passenger records
+* Edit passenger records
+* Delete passenger records
+* Generate reports
+* Export Excel reports
+* Export PDF reports
+
+---
+
+### Protocol Officer
+
+Protocol Officers have access to protocol-related passenger activities and their assigned functions.
+
+They can register and manage passenger information according to the permissions assigned to their role.
+
+---
+
+### Normal User
+
+Normal users can access user-level functions provided by the system.
+
+Users can:
+
+* Access the User Dashboard
+* Register passengers
+* View passengers associated with their account
+* View their reports
+* Edit permitted passenger information
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+
+* Python
+* Flask
+* Flask-SQLAlchemy
+* Flask-Migrate
+* SQLAlchemy
+* Flask-Mail
+* Flask-Login
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+* Bootstrap
+* Font Awesome
+
+### Database
+
+* PostgreSQL
+* Neon PostgreSQL
+
+The application is designed to support migration between database environments where required.
+
+### Reporting
+
+* ReportLab
+* Pandas
+* OpenPyXL
+
+### Deployment
+
+* Render
+* Gunicorn
+* GitHub
+* Neon PostgreSQL
+
+---
+
+## 📂 Project Structure
+
+```text
+protocol_app/
+│
+├── app/
+│   ├── models/
+│   │   ├── admin.py
+│   │   ├── forms.py
+│   │   └── user.py
+│   │
+│   ├── routes/
+│   │   ├── admin/
+│   │   │   ├── dashboard
+│   │   │   ├── forms.py
+│   │   │   ├── passenger.py
+│   │   │   ├── report.py
+│   │   │   ├── user.py
+│   │   │   └── views.py
+│   │   │
+│   │   ├── root/
+│   │   │   ├── login.py
+│   │   │   ├── index.py
+│   │   │   └── user_dashboard.py
+│   │
+│   ├── templates/
+│   │   ├── admin/
+│   │   └── ...
+│   │
+│   ├── static/
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── images/
+│   │   └── uploads/
+│   │
+│   ├── utils/
+│   │   ├── auth.py
+│   │   └── decorators.py
+│   │
+│   └── __init__.py
+│
+├── migrations/
+│
+├── config.py
+├── requirements.txt
+├── run.py
+├── Procfile
+├── .python-version
+├── .env
+└── README.md
+```
+
+> **Note:** `.env` contains environment-specific configuration and sensitive credentials and should never be committed to GitHub.
+
+---
+
+## 🔐 Authentication Architecture
+
+The system uses role-specific session keys to allow different user roles to maintain independent authentication states.
+
+Examples include:
+
+```python
+session["admin_user_id"]
+session["protocol_user_id"]
+session["user_user_id"]
+```
+
+The application provides helper functions for retrieving the authenticated role:
+
+```python
+get_admin_user()
+get_protocol_user()
+get_user()
+```
+
+Role-specific decorators are available through:
+
+```python
+admin_required
+protocol_required
+user_required
+```
+
+This architecture allows an Administrator and a normal User to remain logged in simultaneously in different browser tabs/windows.
+
+---
+
+## 🗄️ Database Configuration
+
+The production application uses **Neon PostgreSQL**.
+
+The database connection is supplied through an environment variable:
+
+```env
+DB_URI=your_database_connection_string
+```
+
+Other sensitive configuration values are also stored in environment variables.
+
+Example:
+
+```env
+SECRET_KEY=your_secret_key
+DB_URI=your_postgresql_connection_string
+```
+
+Never commit real credentials to the repository.
+
+---
+
+## ⚙️ Local Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/mufatech/faan-protocol-management-system.git
+```
+
+Move into the project directory:
+
+```bash
+cd faan-protocol-management-system
+```
+
+---
+
+### 2. Create a Virtual Environment
+
+On Windows:
+
+```bash
+python -m venv venv
+```
+
+Activate it:
+
+### Git Bash
+
+```bash
+source venv/Scripts/activate
+```
+
+### Command Prompt
+
+```cmd
+venv\Scripts\activate
+```
+
+---
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the project root.
+
+Example:
+
+```env
+SECRET_KEY=your-secret-key
+DB_URI=your-neon-postgresql-connection-string
+```
+
+Do not commit `.env` to GitHub.
+
+---
+
+### 5. Initialize the Database
+
+Run the Flask migration command:
+
+```bash
+flask db upgrade
+```
+
+---
+
+### 6. Run the Application
+
+```bash
+python run.py
+```
+
+The application will normally be available at:
+
+```text
+http://127.0.0.1:5000
+```
+
+---
+
+## 🌐 Deployment
+
+The application is deployed using **Render**.
+
+The production architecture consists of:
+
+```text
+GitHub
+   │
+   ▼
+Render Web Service
+   │
+   ▼
+Flask Application
+   │
+   ▼
+Neon PostgreSQL
+```
+
+### Render Build Command
+
+```bash
+pip install -r requirements.txt
+```
+
+### Render Start Command
+
+```bash
+gunicorn run:app
+```
+
+Python version is controlled through:
+
+```text
+.python-version
+```
+
+---
+
+## 🔄 Database Migrations
+
+Database changes are managed using **Flask-Migrate/Alembic**.
+
+To generate a migration:
+
+```bash
+flask db migrate -m "Describe your changes"
+```
+
+To apply migrations:
+
+```bash
+flask db upgrade
+```
+
+To check the current migration:
+
+```bash
+flask db current
+```
+
+Always review generated migration files before applying them to production.
+
+---
+
+## 📊 Reporting
+
+The system provides two major reporting formats:
+
+### Excel
+
+Excel reports are generated using:
+
+```text
+Pandas
+OpenPyXL
+```
+
+### PDF
+
+PDF reports are generated using:
+
+```text
+ReportLab
+```
+
+Reports are designed to support FAAN administrative and operational documentation requirements.
+
+---
+
+## 🔒 Security Considerations
+
+The application follows several security practices:
+
+* Passwords are hashed before storage.
+* Sensitive credentials are stored in environment variables.
+* User accounts can be activated/deactivated.
+* Role-based access control is implemented.
+* Uploaded files use secure filenames.
+* Uploaded signature filenames can be generated uniquely.
+* Database access is handled through SQLAlchemy.
+* `.env` files are excluded from source control.
+
+### Never commit:
+
+```text
+.env
+database passwords
+API keys
+SMTP passwords
+private credentials
+secret keys
+```
+
+---
+
+## 🧪 Testing
+
+Before deploying changes to production, test:
+
+* Admin login
+* Protocol Officer login
+* User login
+* User activation/deactivation
+* Passenger registration
+* Passenger editing
+* Passenger deletion
+* Organization management
+* Service level management
+* Special needs management
+* Passenger reports
+* Excel export
+* PDF export
+* Signature uploads
+* Logout functionality
+* Role-based dashboard access
+* Simultaneous Admin/User sessions
+
+### Simultaneous Session Test
+
+The application should support:
+
+```text
+Browser Tab 1
+Admin → Admin Dashboard
+
+Browser Tab 2
+User → User Dashboard
+```
+
+Logging in the User should not replace the Admin session in Tab 1.
+
+Likewise, logging out the User should not log out the Administrator.
+
+---
+
+## 📝 Future Enhancements
+
+Potential future improvements include:
+
+* Advanced audit trail
+* Activity logs
+* Dashboard analytics
+* Search and advanced filtering
+* Pagination for large passenger records
+* Automated email notifications
+* Password reset functionality
+* Two-factor authentication
+* More detailed permission management
+* Improved report customization
+* Automated database backups
+* Mobile-responsive improvements
+* API integration
+* Comprehensive automated testing
+
+---
+
+## 👩🏽‍💻 Developer
+
+**Engr. Sidiqoh Abosede Fasasi**
+
+Software Engineer
+Federal Airports Authority of Nigeria (FAAN)
+
+---
+
+## 📄 License
+
+This project is developed for organizational/operational use.
+
+Unauthorized copying, distribution, modification, or deployment should be subject to the applicable organizational policies and permissions.
+
+---
+
+## 🙏 Acknowledgement
+
+Developed to support the digital transformation and improved efficiency of airport protocol passenger management processes within FAAN.
+
+**Federal Airports Authority of Nigeria (FAAN)**
+
+---
+
+```
+
+This is ready to save as **`README.md`** in the root of your GitHub repository. I deliberately kept the README professional and avoided putting any real database credentials, passwords, or `.env` contents into it.
+```

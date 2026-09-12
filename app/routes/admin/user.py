@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from app import app, db
 from app.models.user import User
-from flask_login import login_required
+from app.utils.decorators import admin_required
 from werkzeug.utils import secure_filename
 from uuid import uuid4
 from flask import send_from_directory
@@ -9,7 +9,7 @@ import os
 
 
 @app.route('/create_user', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def create_user():
 
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def create_user():
 
 
 @app.route('/users')
-@login_required
+@admin_required
 def users():
 
     users = User.query.order_by(
@@ -112,7 +112,7 @@ def users():
     )
 
 @app.route('/user/<int:id>')
-@login_required
+@admin_required
 def view_user(id):
 
     user = User.query.get_or_404(id)
@@ -123,7 +123,7 @@ def view_user(id):
     )
 
 @app.route('/edit-user/<int:id>', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def edit_user(id):
 
     user = User.query.get_or_404(id)
@@ -248,7 +248,7 @@ def edit_user(id):
     )
 
 @app.route('/toggle-user-status/<int:id>', methods=['POST'])
-@login_required
+@admin_required
 def toggle_user_status(id):
 
     user = User.query.get_or_404(id)
@@ -272,7 +272,7 @@ def toggle_user_status(id):
 
 
 @app.route('/uploads/<path:filename>')
-@login_required
+@admin_required
 def uploaded_file(filename):
 
     return send_from_directory(

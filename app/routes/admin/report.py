@@ -1,4 +1,5 @@
-from flask_login import login_required, current_user
+from app.utils.decorators import admin_required
+from app.utils.auth import get_admin_user
 from flask import Flask, render_template, request, redirect, url_for
 from app import app, db
 from app.models.forms import  Organization, Passenger, ServiceLevel, SpecialNeed
@@ -25,6 +26,7 @@ import os
 from io import BytesIO
 
 @app.route('/passenger-report', methods=['GET', 'POST'])
+@admin_required
 def passenger_report():
 
     organizations = Organization.query.all()
@@ -59,7 +61,7 @@ def passenger_report():
 
 # EXPORT TO EXCEL
 @app.route('/export-excel')
-@login_required
+@admin_required
 def export_excel():
 
     query = Passenger.query
@@ -91,7 +93,7 @@ def export_excel():
     # CURRENT USER
     # ============================
 
-    downloader_name = current_user.fullname
+    downloader_name = admin.fullname
 
     download_datetime = datetime.now().strftime(
         "%d %B %Y, %I:%M %p"
@@ -487,12 +489,12 @@ def export_excel():
         # ADD USER SIGNATURE
         # ============================
 
-        if current_user.officer_signature:
+        if admin.officer_signature:
 
             signature_path = os.path.join(
                 app.root_path,
                 "static",
-                current_user.officer_signature
+                admin.officer_signature
             )
 
             if os.path.exists(signature_path):
@@ -537,7 +539,7 @@ def export_excel():
 
     # EXPORT TO PDF
 @app.route('/export-pdf')
-@login_required
+@admin_required
 def export_pdf():
 
     query = Passenger.query
@@ -571,7 +573,7 @@ def export_pdf():
     # CURRENT USER
     # ============================
 
-    downloader_name = current_user.fullname
+    downloader_name = admin.fullname
 
     download_datetime = datetime.now().strftime(
         "%d %B %Y, %I:%M %p"
@@ -1005,12 +1007,12 @@ def export_pdf():
     # USER SIGNATURE
     # ============================
 
-    if current_user.officer_signature:
+    if admin.officer_signature:
 
         signature_path = os.path.join(
             app.root_path,
             "static",
-            current_user.officer_signature
+            admin.officer_signature
         )
 
         if os.path.exists(signature_path):

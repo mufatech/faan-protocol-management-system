@@ -1,5 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, request, redirect, url_for, flash, session
 from app import app
 from app.models.user import User
 
@@ -32,29 +31,58 @@ def login():
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('login'))
 
-        # Login user
-        login_user(user)
-
-        flash("Login successful.", "success")
-
-        # Redirect based on role
+        # Store the user in the appropriate independent session
         if user.role == "admin":
+
+            session["admin_user_id"] = user.id
+
+            flash("Admin login successful.", "success")
+
             return redirect(url_for("admin_dashboard"))
 
         elif user.role == "protocol":
+
+            session["protocol_user_id"] = user.id
+
+            flash("Login successful.", "success")
+
             return redirect(url_for("protocol_dashboard"))
 
         else:
+
+            session["user_user_id"] = user.id
+
+            flash("Login successful.", "success")
+
             return redirect(url_for("user_dashboard"))
 
     return render_template("admin/login.html")
 
 
-@app.route('/logout')
-@login_required
-def logout():
+@app.route('/admin-logout')
+def admin_logout():
 
-    logout_user()
+    session.pop("admin_user_id", None)
+
+    flash("Admin logged out successfully.", "success")
+
+    return redirect(url_for("login"))
+
+
+@app.route('/user-logout')
+def user_logout():
+
+    session.pop("user_user_id", None)
+
+    flash("Logged out successfully.", "success")
+
+    return redirect(url_for("login"))
+
+
+@app.route('/protocol-logout')
+def protocol_logout():
+
+    session.pop("protocol_user_id", None)
 
     flash("Logged out successfully.", "success")
 

@@ -1,13 +1,28 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import (
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash
+)
+
 from app import app, db
-from app.models.forms import Organization, Passenger, ServiceLevel, SpecialNeed
-from werkzeug.utils import secure_filename
-from flask_login import current_user, login_required
-import os
+
+from app.models.forms import (
+    Organization,
+    Passenger,
+    ServiceLevel,
+    SpecialNeed
+)
+
+from app.utils.decorators import admin_required
 
 
+# =========================
+# ORGANIZATIONS
+# =========================
 @app.route('/organizations')
-@login_required
+@admin_required
 def organizations():
 
     organizations = Organization.query.order_by(
@@ -19,30 +34,59 @@ def organizations():
         organizations=organizations
     )
 
+
+# =========================
+# VIEW ORGANIZATION
+# =========================
 @app.route('/organization/<int:id>')
-@login_required
+@admin_required
 def view_organization(id):
 
-    organization = Organization.query.get_or_404(id)
+    organization = Organization.query.get_or_404(
+        id
+    )
 
     return render_template(
         'admin/view_organization.html',
         organization=organization
     )
 
-@app.route('/edit-organization/<int:id>', methods=['GET', 'POST'])
-@login_required
+
+# =========================
+# EDIT ORGANIZATION
+# =========================
+@app.route(
+    '/edit-organization/<int:id>',
+    methods=['GET', 'POST']
+)
+@admin_required
 def edit_organization(id):
 
-    organization = Organization.query.get_or_404(id)
+    organization = Organization.query.get_or_404(
+        id
+    )
 
     if request.method == 'POST':
 
-        organization.organization_name = request.form['organization_name']
-        organization.address = request.form['address']
-        organization.contact_person = request.form['contact_person']
-        organization.phone_number = request.form['phone_number']
-        organization.email = request.form['email']
+        organization.organization_name = (
+            request.form['organization_name']
+        )
+
+        organization.address = (
+            request.form['address']
+        )
+
+        organization.contact_person = (
+            request.form['contact_person']
+        )
+
+        organization.phone_number = (
+            request.form['phone_number']
+        )
+
+        organization.email = (
+            request.form['email']
+        )
 
         db.session.commit()
 
@@ -63,11 +107,20 @@ def edit_organization(id):
         organization=organization
     )
 
-@app.route('/delete-organization/<int:id>', methods=['POST'])
-@login_required
+
+# =========================
+# DELETE ORGANIZATION
+# =========================
+@app.route(
+    '/delete-organization/<int:id>',
+    methods=['POST']
+)
+@admin_required
 def delete_organization(id):
 
-    organization = Organization.query.get_or_404(id)
+    organization = Organization.query.get_or_404(
+        id
+    )
 
     if organization.passengers:
 
@@ -76,9 +129,14 @@ def delete_organization(id):
             'danger'
         )
 
-        return redirect(url_for('organizations'))
+        return redirect(
+            url_for('organizations')
+        )
 
-    db.session.delete(organization)
+    db.session.delete(
+        organization
+    )
+
     db.session.commit()
 
     flash(
@@ -86,11 +144,16 @@ def delete_organization(id):
         'success'
     )
 
-    return redirect(url_for('organizations'))
+    return redirect(
+        url_for('organizations')
+    )
 
 
+# =========================
+# SERVICE LEVELS
+# =========================
 @app.route('/service-levels')
-@login_required
+@admin_required
 def service_levels():
 
     service_levels = ServiceLevel.query.order_by(
@@ -102,27 +165,47 @@ def service_levels():
         service_levels=service_levels
     )
 
+
+# =========================
+# VIEW SERVICE LEVEL
+# =========================
 @app.route('/service-level/<int:id>')
-@login_required
+@admin_required
 def view_service_level(id):
 
-    service_level = ServiceLevel.query.get_or_404(id)
+    service_level = ServiceLevel.query.get_or_404(
+        id
+    )
 
     return render_template(
         'admin/view_service_level.html',
         service_level=service_level
     )
 
-@app.route('/edit-service-level/<int:id>', methods=['GET', 'POST'])
-@login_required
+
+# =========================
+# EDIT SERVICE LEVEL
+# =========================
+@app.route(
+    '/edit-service-level/<int:id>',
+    methods=['GET', 'POST']
+)
+@admin_required
 def edit_service_level(id):
 
-    service_level = ServiceLevel.query.get_or_404(id)
+    service_level = ServiceLevel.query.get_or_404(
+        id
+    )
 
     if request.method == 'POST':
 
-        service_level.service_name = request.form['service_name']
-        service_level.description = request.form['description']
+        service_level.service_name = (
+            request.form['service_name']
+        )
+
+        service_level.description = (
+            request.form['description']
+        )
 
         db.session.commit()
 
@@ -144,11 +227,19 @@ def edit_service_level(id):
     )
 
 
-@app.route('/delete-service-level/<int:id>', methods=['POST'])
-@login_required
+# =========================
+# DELETE SERVICE LEVEL
+# =========================
+@app.route(
+    '/delete-service-level/<int:id>',
+    methods=['POST']
+)
+@admin_required
 def delete_service_level(id):
 
-    service_level = ServiceLevel.query.get_or_404(id)
+    service_level = ServiceLevel.query.get_or_404(
+        id
+    )
 
     if service_level.passengers:
 
@@ -157,21 +248,31 @@ def delete_service_level(id):
             'danger'
         )
 
-        return redirect(url_for('service_levels'))
+        return redirect(
+            url_for('service_levels')
+        )
 
-    db.session.delete(service_level)
+    db.session.delete(
+        service_level
+    )
+
     db.session.commit()
 
     flash(
         'Service Level deleted successfully.',
-        'danger'
+        'success'
     )
 
-    return redirect(url_for('service_levels'))
+    return redirect(
+        url_for('service_levels')
+    )
 
 
+# =========================
+# SPECIAL NEEDS
+# =========================
 @app.route('/special-needs')
-@login_required
+@admin_required
 def special_needs():
 
     needs = SpecialNeed.query.order_by(
@@ -183,27 +284,47 @@ def special_needs():
         needs=needs
     )
 
+
+# =========================
+# VIEW SPECIAL NEED
+# =========================
 @app.route('/special-need/<int:id>')
-@login_required
+@admin_required
 def view_special_need(id):
 
-    need = SpecialNeed.query.get_or_404(id)
+    need = SpecialNeed.query.get_or_404(
+        id
+    )
 
     return render_template(
         'admin/view_special_need.html',
         need=need
     )
 
-@app.route('/edit-special-need/<int:id>', methods=['GET', 'POST'])
-@login_required
+
+# =========================
+# EDIT SPECIAL NEED
+# =========================
+@app.route(
+    '/edit-special-need/<int:id>',
+    methods=['GET', 'POST']
+)
+@admin_required
 def edit_special_need(id):
 
-    need = SpecialNeed.query.get_or_404(id)
+    need = SpecialNeed.query.get_or_404(
+        id
+    )
 
     if request.method == 'POST':
 
-        need.need_name = request.form['need_name']
-        need.description = request.form.get('description')
+        need.need_name = (
+            request.form['need_name']
+        )
+
+        need.description = request.form.get(
+            'description'
+        )
 
         db.session.commit()
 
@@ -224,16 +345,28 @@ def edit_special_need(id):
         need=need
     )
 
-@app.route('/delete-special-need/<int:id>', methods=['POST'])
-@login_required
+
+# =========================
+# DELETE SPECIAL NEED
+# =========================
+@app.route(
+    '/delete-special-need/<int:id>',
+    methods=['POST']
+)
+@admin_required
 def delete_special_need(id):
 
-    need = SpecialNeed.query.get_or_404(id)
+    need = SpecialNeed.query.get_or_404(
+        id
+    )
 
     # Remove relationships with passengers
     need.passengers = []
 
-    db.session.delete(need)
+    db.session.delete(
+        need
+    )
+
     db.session.commit()
 
     flash(
@@ -244,4 +377,3 @@ def delete_special_need(id):
     return redirect(
         url_for('special_needs')
     )
-

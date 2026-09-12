@@ -1,29 +1,34 @@
 from flask import render_template, redirect, request, url_for, flash
 from app import app, db
-from flask_login import login_required, current_user
+from app.utils.decorators import user_required
+from app.utils.auth import get_user
 from app.models.forms import Passenger, Organization, ServiceLevel, SpecialNeed
-#from app.models.user import User
-#from sqlalchemy import func
+
 
 @app.route('/user_dashboard', methods=['GET'])
-@login_required
+@user_required
 def user_dashboard():
-    passenger_count = Passenger.query.count()
-    
+
+    user = get_user()
+
+    passenger_count = Passenger.query.filter_by(
+        user_id=user.id
+    ).count()
 
     return render_template(
         'user/user_dashboard.html',
         passenger_count=passenger_count
-       
     )
 
 
 @app.route('/my-passengers')
-@login_required
+@user_required
 def my_passengers():
 
+    user = get_user()
+
     passengers = Passenger.query.filter_by(
-        user_id=current_user.id
+        user_id=user.id
     ).order_by(
         Passenger.id.desc()
     ).all()
@@ -35,12 +40,14 @@ def my_passengers():
 
 
 @app.route('/my-passenger/<int:id>')
-@login_required
+@user_required
 def view_my_passenger(id):
+
+    user = get_user()
 
     passenger = Passenger.query.filter_by(
         id=id,
-        user_id=current_user.id
+        user_id=user.id
     ).first_or_404()
 
     return render_template(
@@ -48,16 +55,19 @@ def view_my_passenger(id):
         passenger=passenger
     )
 
+
 @app.route(
     '/edit-my-passenger/<int:id>',
     methods=['GET', 'POST']
 )
-@login_required
+@user_required
 def edit_my_passenger(id):
+
+    user = get_user()
 
     passenger = Passenger.query.filter_by(
         id=id,
-        user_id=current_user.id
+        user_id=user.id
     ).first_or_404()
 
     organizations = Organization.query.all()
@@ -113,32 +123,31 @@ def edit_my_passenger(id):
 
 
 @app.route('/my-report')
-@login_required
+@user_required
 def my_report():
+
+    user = get_user()
 
     organization_id = request.args.get('organization_id')
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
 
-    # Start with ONLY current user's passengers
+    # Start with ONLY the currently logged-in user's passengers
     query = Passenger.query.filter_by(
-        user_id=current_user.id
+        user_id=user.id
     )
 
     if organization_id:
-
         query = query.filter(
             Passenger.organization_id == organization_id
         )
 
     if start_date:
-
         query = query.filter(
             Passenger.travel_date >= start_date
         )
 
     if end_date:
-
         query = query.filter(
             Passenger.travel_date <= end_date
         )
@@ -159,3 +168,4 @@ def my_report():
         start_date=start_date,
         end_date=end_date
     )
+

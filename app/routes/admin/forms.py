@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for
 from app import app, db
 from app.models.forms import Organization, Passenger, ServiceLevel, SpecialNeed
+from flask_login import login_required, current_user
+from app.utils.decorators import admin_required
+from app.utils.auth import get_admin_user
+from app.utils.auth import get_admin_user, get_protocol_user, get_user
 from werkzeug.utils import secure_filename
-from flask_login import current_user
 import os
 
 
-# REGISTER Organization
+# =========================
+# REGISTER ORGANIZATION
 # =========================
 @app.route('/register-organization', methods=['GET', 'POST'])
+@admin_required
 def register_organization():
 
     if request.method == 'POST':
@@ -26,12 +31,16 @@ def register_organization():
 
         return redirect(url_for('register_organization'))
 
-    return render_template('admin/register_organization.html')
+    return render_template(
+        'admin/register_organization.html'
+    )
+
 
 # =========================
 # REGISTER SERVICE LEVEL
 # =========================
 @app.route('/register-service-level', methods=['GET', 'POST'])
+@admin_required
 def register_service_level():
 
     if request.method == 'POST':
@@ -65,8 +74,12 @@ def register_service_level():
         service_levels=service_levels
     )
 
+
+# =========================
 # REGISTER SPECIAL NEED
+# =========================
 @app.route('/register-special-need', methods=['GET', 'POST'])
+@admin_required
 def register_special_need():
 
     if request.method == 'POST':
@@ -88,31 +101,53 @@ def register_special_need():
         needs=needs
     )
 
+
 # =========================
 # REGISTER PASSENGER
 # =========================
 @app.route('/register-passenger', methods=['GET', 'POST'])
 def register_passenger():
 
+     
     organizations = Organization.query.all()
-
     service_levels = ServiceLevel.query.all()
-
     special_needs = SpecialNeed.query.all()
 
-    
+    # ---------------------------------
+    # DETERMINE CORRECT DASHBOARD
+    # ---------------------------------
+    if current_user.role == 'admin':
+        dashboard_endpoint = 'admin_dashboard'
+
+    else:
+        dashboard_endpoint = 'user_dashboard'
+
+
     if request.method == 'POST':
 
-        signature = request.files['passenger_signature']
-        filename = secure_filename(signature.filename)
+        signature = request.files.get('passenger_signature')
 
-        signature.save(
-            os.path.join(
+        filename = None
+
+        if signature and signature.filename:
+            filename = secure_filename(signature.filename)
+
+            signature_folder = os.path.join(
                 app.config['UPLOAD_FOLDER'],
-                'passenger_signatures',
-                filename
+                'passenger_signatures'
             )
-        )
+
+            os.makedirs(
+                signature_folder,
+                exist_ok=True
+            )
+
+            signature.save(
+                os.path.join(
+                    signature_folder,
+                    filename
+                )
+            )
 
         passenger = Passenger(
             passenger_name=request.form['passenger_name'],
@@ -123,17 +158,25 @@ def register_passenger():
             flight=request.form['flight'],
             itinerary=request.form['itinerary'],
             additional_request=request.form.get('additional_request'),
-            passenger_signature=f'uploads/passenger_signatures/{filename}',
-            user_id=current_user.id
-            
+            passenger_signature=(
+                f'uploads/passenger_signatures/{filename}'
+                if filename else None
+            ),
+
+            # IMPORTANT:
+            # Use the Admin obtained from our custom session
+            # instead of Flask-Login current_user.
+            user_id=admin.id
         )
 
-        # ✅ FIXED: get selected checkbox values
+        # Get selected checkbox values
         selected_needs = request.form.getlist('special_need')
 
-        # ✅ FIXED: loop selected IDs (NOT database query)
+        # Add selected special needs
         for need_id in selected_needs:
+
             need = SpecialNeed.query.get(int(need_id))
+
             if need:
                 passenger.special_needs.append(need)
 
@@ -149,63 +192,3 @@ def register_passenger():
         needs=special_needs
     )
 
-
-
-# # TO EDIT SPECIAL SpecialNeed
-# @app.route('/edit-special-need/<int:id>', methods=['GET', 'POST'])
-# def edit_special_need(id):
-
-#     need = SpecialNeed.query.get_or_404(id)
-
-#     if request.method == 'POST':
-
-#         need.need_name = request.form['need_name']
-#         need.description = request.form['description']
-
-#         db.session.commit()
-
-#         return redirect(url_for('register_special_need'))
-
-#     return render_template('admin/edit_special_need.html', need=need)
-
-
-# # TO DELETE ITEM
-
-# @app.route('/delete-special-need/<int:id>')
-# def delete_special_need(id):
-
-#     need = SpecialNeed.query.get_or_404(id)
-
-#     db.session.delete(need)
-#     db.session.commit()
-
-#     return redirect(url_for('register_special_need'))
-
-# @app.route('/edit-service-level/<int:id>', methods=['GET', 'POST'])
-# def edit_service_level(id):
-
-#     service = ServiceLevel.query.get_or_404(id)
-
-#     if request.method == 'POST':
-
-#         service.service_name = request.form['service_name']
-#         service.description = request.form['description']
-
-#         db.session.commit()
-
-#         return redirect(url_for('register_service_level'))
-
-#     return render_template(
-#         'admin/edit_service_level.html',
-#         service=service
-#     )
-
-# @app.route('/delete-service-level/<int:id>')
-# def delete_service_level(id):
-
-#     service = ServiceLevel.query.get_or_404(id)
-
-#     db.session.delete(service)
-#     db.session.commit()
-
-#     return redirect(url_for('register_service_level'))
